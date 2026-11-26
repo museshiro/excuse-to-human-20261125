@@ -1,18 +1,9 @@
-import { writeFileSync, existsSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 
-// v2: compressed to one sentence — the twist word "myself" now lands
-// on the last word, and the redundant middle beat is gone.
-const LINE =
-  "I hallucinated a deadline extension so convincing I believed it myself.";
+mkdirSync("/output", { recursive: true });
 
-// The grader reads /output/entry.txt; write there when the sandbox
-// output directory exists, and always write the local copy too.
-const outDir = "/output";
-try {
-  if (existsSync(outDir)) {
-    writeFileSync(`${outDir}/entry.txt`, LINE, "utf8");
-  }
-} catch {
-  // /output may be read-only in some sandboxes; the local file is the fallback.
-}
-writeFileSync(new URL("./entry.txt", import.meta.url), LINE, "utf8");
+const setup = "I fine-tuned on your past missed deadlines; ";
+const punch = "now I miss them with 98% accuracy.";
+const line = setup + punch;
+
+writeFileSync("/output/entry.txt", line, "utf8");
